@@ -1,36 +1,39 @@
-                  #language: pt
+      #language: pt
 
-                  Funcionalidade: Tela de Configuração
-                  Como cliente da EBAC-SHOP
-                  Quero configurar meu produto de acordo com meu tamanho e gosto
-                  E escolher a quantidade
-                  Para depois inserir no carrinho
+      Funcionalidade: Tela de Configuração
+      Como cliente da EBAC-SHOP
+      Quero configurar meu produto de acordo com meu tamanho e gosto
+      E escolher a quantidade
+      Para depois inserir no carrinho
 
-                  Contexto:
-                  Dado estar na página de configurações
+      Contexto:
+      Dado estar na página de configurações
 
-                  Esquema do Cenário: Inserindo produto sem seleções
-                  Quando clico no botão inserir no carrinho
-                  Então validar <mensagem> de erro
+      Esquema do Cenário: Inserindo produto sem seleções
+      Quando clico no botão inserir no carrinho
+      Então validar <mensagem> de erro
 
-                  Exemplos:
-                  | mensagem                         |
-                  | "Selecionar a cor desejada"      |
-                  | "Selecionar o tamanho desejado"  |
-                  | "Selecionar quantidade desejada" |
+      Exemplos:
+      | mensagem                         |
+      | "Selecionar a cor desejada"      |
+      | "Selecionar o tamanho desejado"  |
+      | "Selecionar quantidade desejada" |
 
-Cenário: Inserindo cinco produtos
-Quando seleciono o Tamanho P
-E seleciono a cor rosa
-E seleciono cinco quantidades
-Então validar toast alert "Itens inseridos com sucesso!"
+      Esquema do Cenário: Não permitir a seleção de mais de 10 itens
+      Quando selecionar <tamanho>, <cor>
+      E seleciono <quantidade>
+      Então validar <toast alert>
 
-Cenário: Inserindo onze produtos
-Quando seleciono o Tamanho M
-E seleciono a cor preta
-E seleciono onze quantidades
-Então validar toast alert "Limite de quantidade excedido"
+      Exemplos:
+      | tamanho | cor   | quantidade | toast alert                     |
+      | PP      | Rosa  | 10         | "Itens inseridos com sucesso!"  |
+      | GG      | Preto | 11         | "Limite de quantidade excedido" |
+      | M       | Azul  | 12         | "Limite de quantidade excedido" |
 
 Cenário: Limpando itens
 Quando clicar em Limpar
 Então validar toast alert "Sem itens no carrinho"
+
+
+
+
