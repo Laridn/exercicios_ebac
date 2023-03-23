@@ -1,0 +1,286 @@
+{
+	"info": {
+		"_postman_id": "6710f007-9a16-46e0-bd28-781d04eea04d",
+		"name": "Usuarios ServeRest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26466139"
+	},
+	"item": [
+		{
+			"name": "Cadastrar Usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Validar cadastro de sucesso\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"Cadastro Aluno\",\n  \"email\": \"cadastroaluno1@qa.com.br\",\n  \"password\": \"teste\",\n  \"administrador\": \"true\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}usuarios",
+					"host": [
+						"{{local}}usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar Usuário Repetido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar email já existente\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Este email já está sendo usado\");",
+							"});",
+							"",
+							"pm.test(\"Status code 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"Novo Cadastro\",\n  \"email\": \"cadastro@qa.com.br\",\n  \"password\": \"teste\",\n  \"administrador\": \"true\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}usuarios",
+					"host": [
+						"{{local}}usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Usuários Cadastrados",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar usuários\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"usuarios\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}usuarios",
+					"host": [
+						"{{local}}usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Usuário por ID Existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar usuário encontrado\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"nome\");",
+							"});",
+							"",
+							"pm.test(\"Status code é 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local}}usuarios/LBzFuNhn40PfeZoy",
+					"host": [
+						"{{local}}usuarios"
+					],
+					"path": [
+						"LBzFuNhn40PfeZoy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Usuário por ID Inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code deve ser 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Validar usuário não encontrado\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Usuário não encontrado\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{local}}usuarios/LBzFu",
+					"host": [
+						"{{local}}usuarios"
+					],
+					"path": [
+						"LBzFu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Validar edição dos dados do usuário\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Registro alterado com sucesso\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\n            \"nome\": \"Novo Usuário Editado 2\",\n            \"email\": \"novousuario@qa.com\",\n            \"password\": \"teste\",\n            \"administrador\": \"true\"\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}usuarios/0uxuPY0cbmQhpEz1",
+					"host": [
+						"{{local}}usuarios"
+					],
+					"path": [
+						"0uxuPY0cbmQhpEz1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir Usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Validar Exclusão do Usuário\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Registro excluído com sucesso\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{local}}usuarios/m5jkc2H3DIPLZm55",
+					"host": [
+						"{{local}}usuarios"
+					],
+					"path": [
+						"m5jkc2H3DIPLZm55"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
